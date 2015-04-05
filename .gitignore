@@ -2,8 +2,6 @@
 
 # Eclipse configs
 .settings
-.project
-.classpath
 
 # Package Files #
 *.jar
