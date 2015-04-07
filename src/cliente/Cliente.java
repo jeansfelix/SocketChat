@@ -7,11 +7,10 @@ import java.util.Scanner;
 
 public class Cliente
 {
-
     public static void main(String[] args) throws IOException
     {
         Socket cliente = new Socket("127.0.0.1", 7777);
-        System.out.println("O cliente se conectou ao servidor!");
+        System.out.println("Eu me conectei ao servidor!");
 
         Scanner scanner = new Scanner(System.in);
 
