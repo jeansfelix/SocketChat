@@ -3,20 +3,19 @@ package cliente;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
 import java.net.Socket;
-import java.util.Scanner;
 
-import servidor.Servidor;
-import utils.GerenciadorLog;
+import cliente.vista.Tela;
 
 public class Recebedor implements Runnable
 {
     private Socket clienteServidor;
+    private Tela tela;
 
-    public Recebedor(Socket clienteServidor)
+    public Recebedor(Socket clienteServidor, Tela tela)
     {
         this.clienteServidor = clienteServidor;
+        this.tela = tela;
     }
 
     @Override
@@ -39,7 +38,8 @@ public class Recebedor implements Runnable
                     break;
                 }
                 
-                System.out.println(mensagemLida);
+                tela.getViewBox().append(mensagemLida);
+                tela.getViewBox().append("\n");
             }
             catch (IOException e)
             {

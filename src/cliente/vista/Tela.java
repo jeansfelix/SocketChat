@@ -3,6 +3,8 @@ package cliente.vista;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -14,8 +16,10 @@ import javax.swing.JTextArea;
 @SuppressWarnings("serial")
 public class Tela extends JFrame {
 
+	private String mensagem;
 	private JPanel mensagensChat;
 	private JPanel envioMensagens;
+	private JTextArea viewBox;
 
 	public Tela() {
 
@@ -43,12 +47,23 @@ public class Tela extends JFrame {
 		envioMensagens.setSize(800, 200);
 		envioMensagens.setBounds(0, 400, 800, 200);
 
-		JTextArea sendBox = new JTextArea();
-		JTextArea viewBox = new JTextArea();
+		final JTextArea sendBox = new JTextArea();
+		
+		viewBox = new JTextArea();
+		viewBox.setRequestFocusEnabled(false);
+
 		JButton btnEnviar = new JButton();
-
-		btnEnviar.setSize(10, 20);
-
+		
+    	ActionListener listener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mensagem = sendBox.getText();
+			}
+		};
+		
+		btnEnviar.addActionListener(listener);
+		
 		mensagensChat.add(viewBox);
 		envioMensagens.add(sendBox);
 		envioMensagens.add(btnEnviar);
@@ -59,12 +74,20 @@ public class Tela extends JFrame {
 		this.setVisible(true);
 	}
 
+	public JTextArea getViewBox() {
+		return viewBox;
+	}
+
 	public JPanel getMensagensChat() {
 		return mensagensChat;
 	}
 
 	public JPanel getEnvioMensagens() {
 		return envioMensagens;
+	}
+
+	public String getMensagem() {
+		return mensagem;
 	}
 
 }

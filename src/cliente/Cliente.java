@@ -17,7 +17,7 @@ public class Cliente
     	Socket clienteServidor = new Socket("127.0.0.1", 7777);
         System.out.println("[" + GerenciadorLog.obterDataFormatada() + "]" + " Eu me conectei ao servidor!");
         
-        Recebedor recebedor = new Recebedor(clienteServidor);
+        Recebedor recebedor = new Recebedor(clienteServidor, tela);
         new Thread(recebedor).start();
         
         Scanner scanner = new Scanner(System.in);
