@@ -1,40 +1,45 @@
-package servidor;
+package cliente;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.net.Socket;
+import java.util.Scanner;
 
+import servidor.Servidor;
 import utils.GerenciadorLog;
 
-public class TratadorCliente implements Runnable
+public class Recebedor implements Runnable
 {
-    private Socket cliente;
-    
-    private static int serial = 0;
-    
-    public TratadorCliente(Socket cliente)
+    private Socket clienteServidor;
+
+    public Recebedor(Socket clienteServidor)
     {
-        this.cliente = cliente;
-        serial++;
+        this.clienteServidor = clienteServidor;
     }
-    
+
     @Override
     public void run()
     {
-        System.out.println("[" + GerenciadorLog.obterDataFormatada() + "]" + " Cliente #" + serial + " conectado com sucesso.");
-        
         String mensagemLida = "";
+        
         while (!"#".equals(mensagemLida))
         {
             InputStreamReader reader;
             
             try
             {
-                reader = new InputStreamReader(cliente.getInputStream());
+                reader = new InputStreamReader(clienteServidor.getInputStream());
                 BufferedReader leitor = new BufferedReader(reader);
                 mensagemLida = leitor.readLine();
-                Servidor.distribuirMensagem("[" + GerenciadorLog.obterDataFormatada() + "]" + " Cliente #" + serial + ": " + mensagemLida);
+                
+                if(mensagemLida == null)
+                {
+                    break;
+                }
+                
+                System.out.println(mensagemLida);
             }
             catch (IOException e)
             {
