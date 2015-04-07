@@ -5,15 +5,18 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 
+import cliente.vista.Tela;
 import utils.GerenciadorLog;
 
 public class Cliente
 {
     public static void main(String[] args) throws IOException
     {
-        Socket clienteServidor = new Socket("127.0.0.1", 7777);
+    	Tela tela = new Tela();
+    	
+    	Socket clienteServidor = new Socket("127.0.0.1", 7777);
         System.out.println("[" + GerenciadorLog.obterDataFormatada() + "]" + " Eu me conectei ao servidor!");
-
+        
         Recebedor recebedor = new Recebedor(clienteServidor);
         new Thread(recebedor).start();
         
@@ -32,4 +35,5 @@ public class Cliente
 
         clienteServidor.close();
     }
+
 }
