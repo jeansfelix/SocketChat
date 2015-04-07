@@ -1,6 +1,7 @@
 package cliente.vista;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -11,6 +12,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 @SuppressWarnings("serial")
@@ -24,8 +26,9 @@ public class Tela extends JFrame {
 	public Tela() {
 
 		this.setTitle("Chat");
-
-		this.setSize(800, 600);
+		this.setSize(800, 560);
+		this.getContentPane().setLayout(new FlowLayout());
+		this.setResizable(false);
 
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -36,40 +39,38 @@ public class Tela extends JFrame {
 		mensagensChat = new JPanel();
 		envioMensagens = new JPanel();
 
-		this.getContentPane().setLayout(new FlowLayout());
+		mensagensChat.setLayout(new FlowLayout());
+		mensagensChat.setBackground(new Color(0, 0, 0));
 
-		mensagensChat.setLayout(new GridLayout());
-		mensagensChat.setBackground(new Color(0, 0, 255));
-		mensagensChat.setSize(800, 400);
+		viewBox = new JTextArea(25, 71);
+		viewBox.setEditable(false);
+		mensagensChat.add(viewBox);
 
-		envioMensagens.setLayout(new GridLayout(1, 2));
-		envioMensagens.setBackground(new Color(200, 200, 200));
-		envioMensagens.setSize(800, 200);
-		envioMensagens.setBounds(0, 400, 800, 200);
+		envioMensagens.setLayout(new FlowLayout());
+		envioMensagens.setBackground(new Color(0, 0, 144));
 
-		final JTextArea sendBox = new JTextArea();
-		
-		viewBox = new JTextArea();
-		viewBox.setRequestFocusEnabled(false);
+		final JTextArea sendBox = new JTextArea(6, 64);
+		sendBox.setLineWrap(true);
+		JScrollPane scrollSendBox = new JScrollPane(sendBox);
 
-		JButton btnEnviar = new JButton();
-		
-    	ActionListener listener = new ActionListener() {
-			
+		JButton btnEnviar = new JButton("Enviar");
+		btnEnviar.setPreferredSize(new Dimension(70, 95));
+
+		ActionListener listener = new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mensagem = sendBox.getText();
 			}
 		};
-		
+
 		btnEnviar.addActionListener(listener);
-		
-		mensagensChat.add(viewBox);
-		envioMensagens.add(sendBox);
+
+		envioMensagens.add(scrollSendBox);
 		envioMensagens.add(btnEnviar);
-		
-		this.getLayeredPane().add(mensagensChat);
-		this.getLayeredPane().add(envioMensagens);
+
+		this.getContentPane().add(mensagensChat);
+		this.getContentPane().add(envioMensagens);
 
 		this.setVisible(true);
 	}
