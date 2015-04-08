@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.net.SocketException;
 
 import cliente.vista.Tela;
 
@@ -40,6 +41,10 @@ public class Recebedor implements Runnable
                 
                 tela.getViewBox().append(mensagemLida);
                 tela.getViewBox().append("\n");
+            }
+            catch (SocketException e)
+            {
+            	return;
             }
             catch (IOException e)
             {

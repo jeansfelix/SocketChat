@@ -13,33 +13,42 @@ public class TratadorCliente implements Runnable
     
     private static int serial = 0;
     
+    private int id;
+    
     public TratadorCliente(Socket cliente)
     {
         this.cliente = cliente;
-        serial++;
+        this.id = ++serial;
     }
     
     @Override
     public void run()
     {
-        System.out.println("[" + GerenciadorLog.obterDataFormatada() + "]" + " Cliente #" + serial + " conectado com sucesso.");
-        
-        String mensagemLida = "";
-        while (!"#".equals(mensagemLida))
-        {
-            InputStreamReader reader;
-            
-            try
+    	try
+    	{
+    		Servidor.distribuirMensagem("[" + GerenciadorLog.obterDataFormatada() + "]" + " Cliente #" + id + " entrou.");
+
+            String mensagemLida = "";
+            while (!"#".equals(mensagemLida))
             {
+                InputStreamReader reader;
+                
                 reader = new InputStreamReader(cliente.getInputStream());
                 BufferedReader leitor = new BufferedReader(reader);
                 mensagemLida = leitor.readLine();
-                Servidor.distribuirMensagem("[" + GerenciadorLog.obterDataFormatada() + "]" + " Cliente #" + serial + ": " + mensagemLida);
+                
+                if(mensagemLida == null)
+                {
+                	cliente.close();
+                	break;
+                }
+                
+                Servidor.distribuirMensagem("[" + GerenciadorLog.obterDataFormatada() + "]" + " Cliente #" + id + ": " + mensagemLida);
             }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
+    	}
+        catch (IOException e)
+        {
+            e.printStackTrace();
         }
     }
 }
