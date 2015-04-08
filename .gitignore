@@ -2,10 +2,9 @@
 
 # Eclipse configs
 .settings
+bin
 
 # Package Files #
 *.jar
 *.war
 *.ear
-
-bin/
